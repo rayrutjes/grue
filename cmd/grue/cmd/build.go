@@ -25,7 +25,7 @@ func init() {
 var buildCmd = &cobra.Command{
 	Use:   "build",
 	Short: "Build images",
-	Long:  "Build images using go build and Docker CLI.",
+	Long:  "Build images using Docker CLI.",
 	RunE:  build,
 }
 

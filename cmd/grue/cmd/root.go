@@ -8,8 +8,8 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:           "bob",
-	Short:         "Bob builds images",
+	Use:           "grue",
+	Short:         "Grue builds images",
 	SilenceErrors: true,
 	SilenceUsage:  true,
 }
