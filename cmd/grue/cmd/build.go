@@ -8,7 +8,8 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/algolia/grue/cmd/grue/pkg/schema"
+	"github.com/algolia/grue/pkg/schema"
+	"github.com/algolia/grue/pkg/util"
 	"github.com/spf13/cobra"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -82,7 +83,7 @@ func publishImage(a schema.Artifact, tag string) error {
 	image := fmt.Sprintf("%s:%s", a.Image, tag)
 	cmd := exec.Command("docker", "push", image)
 	cmd.Dir = a.Context
-	return runCmdOut(cmd)
+	return util.RunCmdOut(cmd)
 }
 
 func runBuildScript(a schema.Artifact, script string) error {
@@ -92,7 +93,7 @@ func runBuildScript(a schema.Artifact, script string) error {
 	)
 	cmd := exec.Command("/bin/sh", script)
 	cmd.Env = env
-	return runCmdOut(cmd)
+	return util.RunCmdOut(cmd)
 }
 
 func runDockerBuild(a schema.Artifact, tag string) error {
@@ -103,7 +104,7 @@ func runDockerBuild(a schema.Artifact, tag string) error {
 	}
 	cmd := exec.Command("docker", "build", "-t", image, path)
 	cmd.Dir = a.Context
-	return runCmdOut(cmd)
+	return util.RunCmdOut(cmd)
 }
 
 func gitTag() (string, error) {
@@ -115,14 +116,4 @@ func gitTag() (string, error) {
 	}
 
 	return string(bytes.TrimSpace(out)), nil
-}
-
-func runCmdOut(cmd *exec.Cmd) error {
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	err := cmd.Start()
-	if err != nil {
-		return err
-	}
-	return cmd.Wait()
 }
