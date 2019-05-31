@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -10,7 +9,6 @@ import (
 	"github.com/algolia/grue/pkg/schema"
 	"github.com/algolia/grue/pkg/util/utilcmd"
 	"github.com/spf13/cobra"
-	yaml "gopkg.in/yaml.v2"
 )
 
 var cluster string
@@ -27,12 +25,7 @@ var applyCmd = &cobra.Command{
 }
 
 func apply(cmd *cobra.Command, args []string) error {
-	f, err := ioutil.ReadFile("images.yaml")
-	if err != nil {
-		return err
-	}
-	var config schema.Config
-	err = yaml.Unmarshal(f, &config)
+	config, err := schema.New("images.yaml")
 	if err != nil {
 		return err
 	}

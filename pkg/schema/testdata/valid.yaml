@@ -1,0 +1,13 @@
+apiVersion: grue/v1
+kind: Config
+build:
+  script: scripts/build.sh
+  artifacts:
+  - image: gcr.io/foo/bar
+    context: cmd/foo/bar
+deploy:
+  clusters:
+  - name: foo
+    project: bar
+    region: us-east1
+    manifests: k8s/foo/bar/

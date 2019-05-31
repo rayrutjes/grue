@@ -1,0 +1,6 @@
+apiVersion: grue/v1
+kind: Config
+build:
+  script: scripts/build.sh
+  artifacts:
+  - context: cmd/foo/bar
