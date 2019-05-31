@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -9,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/algolia/grue/pkg/schema"
-	"github.com/algolia/grue/pkg/util"
+	"github.com/algolia/grue/pkg/util/utilcmd"
 	"github.com/spf13/cobra"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -72,13 +71,11 @@ func applyCluster(c schema.Cluster) error {
 }
 
 func applyManifest(file string) error {
-	fmt.Printf("kubectl apply -f %s\n", file)
 	cmd := exec.Command("kubectl", "apply", "-f", file)
-	return util.RunCmdOut(cmd)
+	return utilcmd.Run(cmd)
 }
 
 func auth(c schema.Cluster) error {
-	fmt.Printf("gcloud beta container clusters get-credentials %s --region %s --project %s\n", c.Name, c.Region, c.Project)
 	cmd := exec.Command("gcloud", "beta", "container", "clusters", "get-credentials", c.Name, "--region", c.Region, "--project", c.Project)
-	return util.RunCmdOut(cmd)
+	return utilcmd.Run(cmd)
 }

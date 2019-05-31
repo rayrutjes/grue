@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/algolia/grue/pkg/schema"
-	"github.com/algolia/grue/pkg/util"
+	"github.com/algolia/grue/pkg/util/utilcmd"
 	"github.com/spf13/cobra"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -83,17 +83,18 @@ func publishImage(a schema.Artifact, tag string) error {
 	image := fmt.Sprintf("%s:%s", a.Image, tag)
 	cmd := exec.Command("docker", "push", image)
 	cmd.Dir = a.Context
-	return util.RunCmdOut(cmd)
+	return utilcmd.Run(cmd)
 }
 
 func runBuildScript(a schema.Artifact, script string) error {
-	env := append(os.Environ(),
+	env := append(
+		os.Environ(),
 		fmt.Sprintf("%s=%s", "CONTEXT", a.Context),
 		fmt.Sprintf("%s=%s", "IMAGE_BASE_NAME", filepath.Base(a.Image)),
 	)
 	cmd := exec.Command("/bin/sh", script)
 	cmd.Env = env
-	return util.RunCmdOut(cmd)
+	return utilcmd.Run(cmd)
 }
 
 func runDockerBuild(a schema.Artifact, tag string) error {
@@ -102,15 +103,16 @@ func runDockerBuild(a schema.Artifact, tag string) error {
 	if err != nil {
 		return err
 	}
+
 	cmd := exec.Command("docker", "build", "-t", image, path)
 	cmd.Dir = a.Context
-	return util.RunCmdOut(cmd)
+	return utilcmd.Run(cmd)
 }
 
 func gitTag() (string, error) {
 	cmd := exec.Command("git", "rev-parse", "--short", "HEAD")
 
-	out, err := cmd.Output()
+	out, err := utilcmd.RunOut(cmd)
 	if err != nil {
 		return "", err
 	}
