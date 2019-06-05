@@ -69,6 +69,6 @@ func applyManifest(file string) error {
 }
 
 func auth(c schema.Cluster) error {
-	cmd := exec.Command("gcloud", "beta", "container", "clusters", "get-credentials", c.Name, "--region", c.Region, "--project", c.Project)
+	cmd := exec.Command("gcloud", "container", "clusters", "get-credentials", c.Name, "--region", c.Region, "--project", c.Project)
 	return utilcmd.Run(cmd)
 }
