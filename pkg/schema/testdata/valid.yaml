@@ -10,4 +10,5 @@ deploy:
   - name: foo
     project: bar
     region: us-east1
-    manifests: k8s/foo/bar/
+    manifests:
+    - k8s/foo/bar/

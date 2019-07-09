@@ -1,10 +1,7 @@
 package cmd
 
 import (
-	"os"
 	"os/exec"
-	"path/filepath"
-	"strings"
 
 	"github.com/algolia/grue/pkg/schema"
 	"github.com/algolia/grue/pkg/util/utilcmd"
@@ -48,19 +45,13 @@ func applyCluster(c schema.Cluster) error {
 		return err
 	}
 
-	return filepath.Walk(c.Manifests, func(path string, info os.FileInfo, err error) error {
+	for _, manifest := range c.Manifests {
+		err := applyManifest(manifest)
 		if err != nil {
 			return err
 		}
-		if info.IsDir() {
-			return nil
-		}
-		// Consider only yaml or yml files.
-		if !strings.HasSuffix(path, ".yaml") && !strings.HasSuffix(path, ".yml") {
-			return nil
-		}
-		return applyManifest(path)
-	})
+	}
+	return nil
 }
 
 func applyManifest(file string) error {

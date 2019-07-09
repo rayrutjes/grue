@@ -48,8 +48,8 @@ type Cluster struct {
 	Project string `yaml:"project" valid:"required"`
 	// Region defines the cluster location
 	Region string `yaml:"region" valid:"required"`
-	// Manifests points to a folder where all the manifests are located, e.g: `k8s/`
-	Manifests string `yaml:"manifests" valid:"required"`
+	// Manifests points to folders where manifests are located, e.g: `k8s/`
+	Manifests []string `yaml:"manifests" valid:"required"`
 }
 
 // New parses a yaml file into a schema.Config.
