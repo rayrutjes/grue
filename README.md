@@ -51,7 +51,7 @@ Examples:
 `grue apply` apply manifests using kubectl.
 
 - Add a `deploy` section in the `images.yaml` to list clusters you want to deploy to, and where to find their respective deployment manifests.
-- `grue apply` runs `gloud` to authenticate against each clusters then looks for all its manifests (`.yaml` or `.yml`) before running `kubectl apply` on them.
+- `grue apply` runs `gcloud` to authenticate against each cluster then looks for all its manifests (`.yaml` or `.yml`) before running `kubectl apply` on them.
 
 
 ```
